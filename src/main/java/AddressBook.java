@@ -29,7 +29,7 @@ public class AddressBook {
         contact.setZip(scanner.next());
         System.out.print("Phone NO : ");
         contact.setPhoneNo(scanner.next());
-        System.out.print("Email Id      : ");
+        System.out.print("Email Id  : ");
         contact.setEmail(scanner.next());
         ContactsArrayList.add(contact);
     }
@@ -44,17 +44,17 @@ public class AddressBook {
                 contacts.setFirstName(scanner.next());
                 System.out.print("Enter Last name    : ");
                 contacts.setLastName(scanner.next());
-                System.out.print("Enter Address      : ");
+                System.out.print("Enter Address  : ");
                 contacts.setAddress(scanner.next());
-                System.out.print("Enter City       : ");
+                System.out.print("Enter City   : ");
                 contacts.setCity(scanner.next());
-                System.out.print("Enter State      : ");
+                System.out.print("Enter State  : ");
                 contacts.setState(scanner.next());
-                System.out.print("Enter Zip        : ");
+                System.out.print("Enter Zip   : ");
                 contacts.setZip(scanner.next());
-                System.out.print("Enter Phone      : ");
+                System.out.print("Enter Phone  : ");
                 contacts.setPhoneNo(scanner.next());
-                System.out.print("Enter Email      : ");
+                System.out.print("Enter Email  : ");
                 contacts.setEmail(scanner.next());
                 System.out.print("Contact edited successfully!");
             } else
@@ -146,6 +146,19 @@ public class AddressBook {
                 System.out.println("INVALID CHOICE!");
         }
     }
+    public void countPeopleByRegion(HashMap<String, ArrayList<Contact>> listToDisplay) {
+
+        System.out.println("Enter the name of the region :");
+        String regionName = scanner.next();
+
+        long countPeople = listToDisplay.values().stream()
+                .map(region -> region.stream()
+                        .filter(person -> person.getState().equals(regionName) || person.getCity().equals(regionName))).count();
+
+        System.out.println("Number of People residing in " + regionName+" are: "+countPeople+"\n");
+
+    }
+
     public void display() {
         System.out.println(ContactsArrayList);
     }
@@ -168,7 +181,8 @@ public class AddressBook {
 
                     while (flag1) {
                         System.out.println("What do you want to do: ");
-                        System.out.print("1.Add details\n2.Edit details\n3.Delete contact\n4.Display Contact\n5.Search By\n6.View By\n7.Exit : ");
+                        System.out.print("1.Add details\n2.Edit details\n3.Delete contact\n4.Display Contact\n5.Search By\n6.View By" +
+                                "\n7.Count by region \n8.Exit : ");
                         int choose1 = scanner.nextInt();
 
                         switch (choose1) {
@@ -178,7 +192,8 @@ public class AddressBook {
                             case 4 -> details.display();
                             case 5 -> details.searchByOptions();
                             case 6 -> details.viewBy();
-                            case 7 -> {
+                            case 7 -> details.countPeopleByRegion(hashmap);
+                            case 8 -> {
                                 System.out.println("Thank You!");
                                 flag1 = false;
                             }
