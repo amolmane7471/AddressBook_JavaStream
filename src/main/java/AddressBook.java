@@ -1,13 +1,13 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AddressBook {
     static Scanner scanner = new Scanner(System.in);
     ArrayList<Contact> ContactsArrayList = new ArrayList<>();
     static HashMap<String, ArrayList<Contact>> hashmap = new HashMap<>();
+    public static Map<String, Contact> cityHashMap = new HashMap<>();
+    public static Map<String, Contact> stateHashMap = new HashMap<>();
+
     static AddressBook details = new AddressBook();
     static boolean flag = true;
 
@@ -86,10 +86,6 @@ public class AddressBook {
         }
     }
 
-    public List<Contact> searchByName(String name) {
-        return ContactsArrayList.stream().filter(person -> person.getFirstName().equalsIgnoreCase(name))
-                .collect(Collectors.toList());
-    }
     public List<Contact> searchByCity(String city) {
         return ContactsArrayList.stream().filter(person -> person.getCity().equalsIgnoreCase(city))
                 .collect(Collectors.toList());
@@ -98,33 +94,53 @@ public class AddressBook {
         return ContactsArrayList.stream().filter(person -> person.getState().equalsIgnoreCase(state))
                 .collect(Collectors.toList());
     }
+    public static void viewByCity(Map<String, Contact> cityHashMap) {
+        cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    public static void viewByState(Map<String, Contact> stateHashMap) {
+        stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
 
     public void searchByOptions() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("1.By name");
-        System.out.println("2.By city");
-        System.out.println("3.By state");
-        System.out.println("4.exit");
+        System.out.println("1.By city");
+        System.out.println("2.By state");
+        System.out.println("3.exit");
         System.out.print("Your choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = scanner.nextInt();
+        scanner.nextLine();
         switch (choice) {
             case 1:
-                System.out.print("Enter name: ");
-                String name = sc.nextLine();
-                ContactsArrayList.forEach(book -> searchByName(name).forEach(System.out::println));
-                break;
-            case 2:
                 System.out.print("Enter city: ");
-                String city = sc.nextLine();
+                String city = scanner.nextLine();
                 ContactsArrayList.forEach(book -> searchByCity(city).forEach(System.out::println));
                 break;
-            case 3:
+            case 2:
                 System.out.print("Enter state: ");
-                String state = sc.nextLine();
+                String state = scanner.nextLine();
                 ContactsArrayList.forEach(book -> searchByState(state).forEach(System.out::println));
                 break;
-            case 4:
+            case 3:
+                System.exit(0);
+            default:
+                System.out.println("INVALID CHOICE!");
+        }
+    }
+    public static void viewBy() {
+        System.out.print("Enter Your choice: \n");
+        System.out.println("1. View By city");
+        System.out.println("2. View By state");
+        System.out.println("3. exit");
+        int choice1 = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice1) {
+            case 1:
+                 viewByCity(cityHashMap);
+                 break;
+            case 2:
+                viewByState(stateHashMap);
+                break;
+            case 3:
                 System.exit(0);
             default:
                 System.out.println("INVALID CHOICE!");
@@ -152,7 +168,7 @@ public class AddressBook {
 
                     while (flag1) {
                         System.out.println("What do you want to do: ");
-                        System.out.print("1.Add details\n2.Edit details\n3.Delete contact\n4.Display Contact\n5. Search By\n6.Exit : ");
+                        System.out.print("1.Add details\n2.Edit details\n3.Delete contact\n4.Display Contact\n5.Search By\n6.View By\n7.Exit : ");
                         int choose1 = scanner.nextInt();
 
                         switch (choose1) {
@@ -161,7 +177,8 @@ public class AddressBook {
                             case 3 -> details.deleteContact();
                             case 4 -> details.display();
                             case 5 -> details.searchByOptions();
-                            case 6 -> {
+                            case 6 -> details.viewBy();
+                            case 7 -> {
                                 System.out.println("Thank You!");
                                 flag1 = false;
                             }
