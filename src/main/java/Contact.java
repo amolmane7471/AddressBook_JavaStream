@@ -7,6 +7,7 @@ public class Contact {
     private String zip;
     private String phoneNo;
     private String email;
+    private Contact addressObj;
 
     public Contact(){};
 
@@ -93,7 +94,13 @@ public class Contact {
     public void setEmail(String email) {
         this.email = email;
     }
+    public Contact getAddressObj() {
+        return addressObj;
+    }
 
+    public void setAddressObj(Contact addressObj) {
+        this.addressObj = addressObj;
+    }
     @Override
     public String toString() {
         return "Contact{" +
